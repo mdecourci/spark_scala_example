@@ -1,0 +1,6 @@
+3 regions
+1000 Shops/Region
+8 Tills/Shop
+1Million products
+
+1 shop selling 100 products per min at each till between 9-5pm = 384000 sales = 100*(8*60)*8 = 100*mins*tills/shop
