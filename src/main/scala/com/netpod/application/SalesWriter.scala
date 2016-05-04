@@ -32,11 +32,14 @@ object SalesWriter {
 
   val random = Random
   val maxSalesRate: Int = 100
+  val secondsPerHour: Int = 60*60
 
   val interval = 60
-  val maxIntervals = (17-9)*60*60/interval
+  val closingTime: Int = 17
+  val openingTime: Int = 9
+  val maxIntervals = (closingTime-openingTime)*secondsPerHour/interval
   val minPrice = 10.00d
-  val openingTime: LocalDateTime = Tills.openingTime(LocalDate.now)
+  val startDate: LocalDateTime = Tills.openingTime(LocalDate.now)
 
   val conf = ConfigFactory.load()
 
@@ -78,7 +81,7 @@ object SalesWriter {
  //           Thread.sleep(10l + random.nextInt(100))
             val salesThisInterval: ListBuffer[Sale] = ListBuffer[Sale]()
             for (saleCount <- 1 to maxSalesRate) {
-              val dataTime = openingTime.plusSeconds((intervalCount - 1) * interval).plusNanos(saleCount * 1000l)
+              val dataTime = startDate.plusSeconds((intervalCount - 1) * interval).plusNanos(saleCount * 1000l)
               salesThisInterval += Sale(productCodes(random.nextInt(maxProducts-1)), minPrice*random.nextInt(100), tillId, shopId, regionId, dataTime)
               salesCount.incrementAndGet()
             }
@@ -87,7 +90,7 @@ object SalesWriter {
           count.incrementAndGet()
           println("Total sales = " + salesCount.intValue())
           "Id:" + "regionId=" + regionId + ",shopId=" + shopId  + ",tillId=" + tillId + ": " + Thread.currentThread().getName
-        }
+        }                                           m
       }
 
       var results : ListBuffer[String] = new ListBuffer()
