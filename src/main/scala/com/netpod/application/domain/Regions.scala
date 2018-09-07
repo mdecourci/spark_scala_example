@@ -2,7 +2,6 @@ package com.netpod.application.domain
 
 import java.time.LocalDateTime
 
-import com.netpod.application.domain.Region
 import com.netpod.database.BaseTable
 import slick.driver.JdbcProfile
 import slick.lifted._
@@ -21,6 +20,7 @@ import slick.lifted.{TableQuery, Tag}
 /**
  * Created by michaeldecourci on 24/09/15.
  */
+
 class RegionTable(tag: Tag) extends Table[Region](tag, "REGIONS") {
 
   def id = column[Long]("ID", O.PrimaryKey, O.AutoInc, O.SqlType("BIGINT"))

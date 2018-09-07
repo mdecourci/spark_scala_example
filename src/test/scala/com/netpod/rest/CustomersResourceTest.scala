@@ -9,6 +9,7 @@ import spray.testkit.ScalatestRouteTest
 import com.netpod.rest.domain.CustomerJsonProtocol._
 import spray.http.StatusCodes.OK
 import spray.http.StatusCodes.Created
+import scala.collection.mutable
 
 /**
  * Created by michaeldecourci on 27/07/15.

@@ -2,12 +2,12 @@ package com.netpod.rest
 
 import akka.actor.ActorSystem
 import akka.event.Logging
-import com.netpod.rest.domain.{Customers, Customer}
+import com.netpod.rest.domain.{Customer, Customers}
 import com.netpod.rest.domain.CustomerJsonProtocol._
 import com.netpod.rest.service.CustomerService
-import com.typesafe.scalalogging.slf4j.LazyLogging
+import com.typesafe.scalalogging.LazyLogging
 import org.apache.spark.SparkConf
-import spray.http.{StatusCodes, StatusCode, MediaTypes}
+import spray.http.{MediaTypes, StatusCode, StatusCodes}
 import spray.httpx.SprayJsonSupport
 import spray.routing.directives.DebuggingDirectives
 import spray.routing.{Route, SimpleRoutingApp}

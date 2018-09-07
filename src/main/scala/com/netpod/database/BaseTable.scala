@@ -57,7 +57,7 @@ trait BaseTable[A, T <: Table[A]] {
     // read future
     val syncHandle = result map { r => capture = capture ++ r  }
     // wait for future to complete
-    Await.result(syncHandle, 0 nanos)
+    Await.result(syncHandle, Duration.Inf)
 
     return capture.toSeq
   }

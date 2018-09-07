@@ -28,6 +28,8 @@ class ShopTable(tag: Tag) extends Table[Shop](tag, "SHOPS") {
   def regionId = column[String]("REGION_ID")
 
   def * = (id, location, regionId) <>(Shop.tupled, Shop.unapply)
+
+//  def region = foreignKey("REGION_FK", regionId, Regions)(_.id)
 }
 
 class Shops(d : Database) extends BaseTable[Shop, ShopTable] {

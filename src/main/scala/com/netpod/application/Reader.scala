@@ -74,13 +74,12 @@ object Reader {
     ds.setInitialSize(configuration.getInt("database.initialSize"));
     ds.setValidationQuery(configuration.getString("database.validationQuery"))
     ds.setUrl(configuration.getString("database.jdbcUrl"))
-    ds
 
     // test the data source validity
     ds.getConnection().close()
 
     // get the Slick database that uses the pooled connection
-    Database.forDataSource(ds)
+    Database.forDataSource(ds, None)
 
   }
 }

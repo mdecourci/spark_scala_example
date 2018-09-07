@@ -45,7 +45,7 @@ object Main {
     dataSource.getConnection().close()
 
     // get the Slick database that uses the pooled connection
-    val db = Database.forDataSource(dataSource)
+    val db = Database.forDataSource(dataSource, None)
 
     val testData = Seq(
       Review("Godzilla", 8, LocalDateTime.now()),

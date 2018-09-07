@@ -3,9 +3,9 @@ package com.netpod.rest.service
 import java.util.UUID
 
 import com.datastax.spark.connector.cql.CassandraConnector
-import com.netpod.rest.domain.{Customers, Customer}
-import com.typesafe.scalalogging.slf4j.LazyLogging
-import org.apache.spark.sql.cassandra.CassandraSQLContext
+import com.netpod.rest.domain.{Customer, Customers}
+import com.typesafe.scalalogging.LazyLogging
+//import org.apache.spark.sql.cassandra.CassandraSQLContext
 import org.apache.spark.{SparkContext, SparkConf}
 
 /**
@@ -49,11 +49,11 @@ class CustomerService(_sparkConf: SparkConf) extends LazyLogging {
 
     session.execute("INSERT INTO customers_api.customers (id, firstName, lastName) VALUES (" + UUID.randomUUID().toString + ",'Tom', 'Jones')")
 
-    val cc = new CassandraSQLContext(sc)
-    cc.setKeyspace("customers_api")
-
-
-   val result = cc.sql("SELECT * FROM customers WHERE lastname = 'Jones'")
-   println("** The Answer = " + result.collectAsList())
+//    val cc = new CassandraSQLContext(sc)
+//    cc.setKeyspace("customers_api")
+//
+//
+//   val result = cc.sql("SELECT * FROM customers WHERE lastname = 'Jones'")
+//   println("** The Answer = " + result.collectAsList())
   }
 }

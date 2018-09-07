@@ -5,6 +5,7 @@ import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
 
 import com.netpod.application.domain._
+import com.netpod.database.ApplicationDatabase
 import com.typesafe.config.{Config, ConfigFactory}
 import slick.dbio.FutureAction
 
@@ -12,7 +13,7 @@ import scala.collection.mutable.ListBuffer
 import scala.compat.Platform
 import scala.concurrent._
 import scala.concurrent.duration._
-import scala.util.{Random, Failure, Success}
+import scala.util.{Failure, Random, Success}
 import ExecutionContext.Implicits.global
 
 //import slick.driver.H2Driver
@@ -41,12 +42,11 @@ object SalesWriter {
   val minPrice = 10.00d
   val startDate: LocalDateTime = Tills.openingTime(LocalDate.now)
 
-  val conf = ConfigFactory.load()
+  val db : Database = ApplicationDatabase.config(ConfigFactory.load())
 
   def main(args: Array[String]) {
 
     implicit val ec = ExecutionContext.fromExecutorService(Executors.newCachedThreadPool())
-    val db = database(conf)
 
     try {
 
@@ -90,7 +90,7 @@ object SalesWriter {
           count.incrementAndGet()
           println("Total sales = " + salesCount.intValue())
           "Id:" + "regionId=" + regionId + ",shopId=" + shopId  + ",tillId=" + tillId + ": " + Thread.currentThread().getName
-        }                                           m
+        }
       }
 
       var results : ListBuffer[String] = new ListBuffer()
@@ -108,28 +108,5 @@ object SalesWriter {
     } finally {
       db.close()
     }
-  }
-
-  def database(configuration : Config): Database = {
-    //    val db = Database.forURL("jdbc:h2:mem:test1;DB_CLOSE_DELAY=-1", driver="org.h2.Driver")
-
-    val ds = new BasicDataSource
-    ds.setDriverClassName(configuration.getString("database.driverClassName"))
-    ds.setUsername(configuration.getString("database.username"))
-    ds.setPassword(configuration.getString("database.password"))
-    ds.setMaxActive(configuration.getInt("database.maxActive"))
-    ds.setMaxIdle(configuration.getInt("database.maxIdle"))
-    ds.setInitialSize(configuration.getInt("database.initialSize"))
-    ds.setValidationQuery(configuration.getString("database.validationQuery"))
-    ds.setUrl(configuration.getString("database.jdbcUrl"))
-    ds.setPoolPreparedStatements(true)
-    ds
-
-    // test the data source validity
-    ds.getConnection().close()
-
-    // get the Slick database that uses the pooled connection
-    Database.forDataSource(ds, executor = AsyncExecutor("DB Thread", numThreads=50, queueSize=1000))
-
   }
 }
